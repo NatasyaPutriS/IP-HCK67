@@ -1,14 +1,14 @@
-const express = require('express')
-const router = express.Router()
-const userRouter = require('./user')
-const categoryRouter = require('./category')
-const articleRouter = require('./article')
-const pubRouter = require('./public')
-const authentication = require('../middlewares/authentication')
+const express = require("express");
+const bookmarkRouter = require("./bookmark");
+const router = express.Router();
 
-router.use('/users', userRouter)
-router.use('/categories', authentication, categoryRouter)
-router.use('/articles', articleRouter)
-router.use('/public', pubRouter )
+router.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Hello World!",
+    });
+});
 
-module.exports = router
+router.use("/bookmark", bookmarkRouter);
+
+module.exports = router;
