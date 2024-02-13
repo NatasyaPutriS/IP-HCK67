@@ -1,0 +1,107 @@
+[
+  {
+    "title": "Vegan Lentil Soup",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegan-lentil-soup.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Chicken Alfredo",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/chicken-alfredo.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Quinoa Salad",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/quinoa-salad.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Grilled Salmon",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/grilled-salmon.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Vegetable Stir-Fry",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegetable-stir-fry.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Pork Tenderloin",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/pork-tenderloin.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Vegan Sushi Rolls",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegan-sushi-rolls.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Beef Tacos",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/beef-tacos.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Vegan Pizza",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegan-pizza.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Chicken Curry",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/chicken-curry.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Vegan Lasagna",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegan-lasagna.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Beef Stir-Fry",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/beef-stir-fry.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Tofu Stir-Fry",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/tofu-stir-fry.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Salmon Teriyaki",
+    "categoryId": 2,
+    "imageUrl": "https://example.com/salmon-teriyaki.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  },
+  {
+    "title": "Vegan Burger",
+    "categoryId": 1,
+    "imageUrl": "https://example.com/vegan-burger.jpg",
+    "createdAt": "2024-02-12T00:00:00Z",
+    "updatedAt": "2024-02-12T00:00:00Z"
+  }
+]
