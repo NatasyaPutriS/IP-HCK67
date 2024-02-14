@@ -1,4 +1,4 @@
-const { db } = require('../libs/firebase')
+const { db } = require("../libs/firebase");
 
 const getAllBookmark = async (req, res) => {
     try {
@@ -8,10 +8,10 @@ const getAllBookmark = async (req, res) => {
     } catch (error) {
         console.error("Error getting bookmarks:", error);
         res
-        .status(500)
-        .json({ error: "Failed to get bookmarks: " + error.message });
+            .status(500)
+            .json({ error: "Failed to get bookmarks: " + error.message });
     }
-}
+};
 
 const getBookmarkById = async (req, res) => {
     const id = req.params.id;
@@ -25,8 +25,8 @@ const getBookmarkById = async (req, res) => {
     } catch (error) {
         console.error("Error getting bookmarks:", error);
         res
-        .status(500)
-        .json({ error: "Failed to get bookmarks: " + error.message });
+            .status(500)
+            .json({ error: "Failed to get bookmarks: " + error.message });
     }
 };
 
@@ -39,10 +39,10 @@ const updateBookmark = async (req, res) => {
         res.status(200).json({ message: "Data updated successfully" });
     } catch (error) {
         res
-        .status(500)
-        .json({ message: "Error updating data", error: error.message });
+            .status(500)
+            .json({ message: "Error updating data", error: error.message });
     }
-}
+};
 
 const deleteBookmark = async (req, res) => {
     const id = req.params.id;
@@ -50,12 +50,30 @@ const deleteBookmark = async (req, res) => {
     try {
         await db.collection("bookmarks").doc(id).delete();
         res.status(200).json({ message: "Data deleted successfully" });
-        } catch (error) {
-            res
+    } catch (error) {
+        res
             .status(500)
             .json({ message: "Error deleting data", error: error.message });
-        }
-    };
+    }
+};
 
+const addBookmark = async (req, res) => {
+    const data = req.body;
 
-module.exports = { getAllBookmark, getBookmarkById, updateBookmark, deleteBookmark };
+    try {
+        const docRef = await db.collection("bookmarks").add(data);
+        res.status(201).json({ message: "Data added successfully", id: docRef.id });
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: "Error adding data", error: error.message });
+    }
+};
+
+module.exports = {
+    getAllBookmark,
+    getBookmarkById,
+    updateBookmark,
+    deleteBookmark,
+    addBookmark
+};

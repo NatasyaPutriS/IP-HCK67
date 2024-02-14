@@ -10,5 +10,6 @@ router.get("/", (req, res) => {
 });
 
 router.use("/bookmark", bookmarkRouter);
+router.use("/users", userRouter)
 
 module.exports = router;
