@@ -1,5 +1,6 @@
 const express = require("express");
 const bookmarkRouter = require("./bookmark");
+const userRouter = require("./user")
 const router = express.Router();
 
 router.get("/", (req, res) => {
