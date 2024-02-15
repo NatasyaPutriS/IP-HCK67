@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react" 
 
 const Register = () => {
     const [values, setValues] = useState({
@@ -8,11 +8,11 @@ const Register = () => {
         loading: false,
         message: "",
         success: false,
-    });
+    }) 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setValues({ ...values, loading: true, message: "" });
+        e.preventDefault() 
+        setValues({ ...values, loading: true, message: "" }) 
 
         const response = await fetch("http://localhost:3000/users/signup", {
             method: "POST",
@@ -20,9 +20,9 @@ const Register = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(values),
-        });
+        }) 
 
-        const data = await response.json();
+        const data = await response.json() 
 
         if (response.status === 201) {
             setValues({
@@ -30,16 +30,16 @@ const Register = () => {
                 loading: false,
                 success: true,
                 message: data.message,
-            });
+            }) 
         } else {
             setValues({
                 ...values,
                 loading: false,
                 success: false,
                 message: data.message,
-            });
+            }) 
         }
-    };
+    } 
 
     return (
         <div className="w-full h-screen flex justify-center items-center">
@@ -114,7 +114,7 @@ const Register = () => {
                 </p>
             </form>
         </div>
-    );
-};
+    ) 
+} 
 
-export default Register;
+export default Register 

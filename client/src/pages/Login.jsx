@@ -1,46 +1,46 @@
-import { BsGoogle } from "react-icons/bs";
-import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../libs/firebase";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { BsGoogle } from "react-icons/bs" 
+import { useState } from "react" 
+import { signInWithEmailAndPassword } from "firebase/auth" 
+import { auth } from "../libs/firebase" 
+import { useNavigate } from "react-router-dom" 
+import { useDispatch, useSelector } from "react-redux" 
 const Login = () => {
     const { loading, userInfo, error, success } = useSelector(
         (state) => state.auth
-    );
-    console.log(loading, userInfo, error, success);
+    ) 
+    console.log(loading, userInfo, error, success) 
 
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState("");
+    const navigate = useNavigate() 
+    const [email, setEmail] = useState("") 
+    const [password, setPassword] = useState("") 
+    const [isLoading, setIsLoading] = useState(false) 
+    const [message, setMessage] = useState("") 
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch() 
 
     const onLogin = (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setMessage("");
+        e.preventDefault() 
+        setIsLoading(true) 
+        setMessage("") 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                const user = userCredential.user;
+                const user = userCredential.user 
                 dispatch({
                     type: "LOGIN_SUCCESS",
                     payload: user.uid,
-                });
-                navigate("/home");
-                setIsLoading(false);
+                }) 
+                navigate("/home") 
+                setIsLoading(false) 
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-                setMessage("Email or password is incorrect");
-                setIsLoading(false);
-            });
-    };
+                const errorCode = error.code 
+                const errorMessage = error.message 
+                console.log(errorCode, errorMessage) 
+                setMessage("Email or password is incorrect") 
+                setIsLoading(false) 
+            }) 
+    } 
 
     return (
         <div className="w-full h-screen flex justify-center items-center">
@@ -103,7 +103,7 @@ const Login = () => {
                 </p>
             </form>
         </div>
-    );
-};
+    ) 
+} 
 
-export default Login;
+export default Login 
