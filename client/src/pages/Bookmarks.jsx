@@ -1,8 +1,8 @@
-import { FaEye, FaTrash } from "react-icons/fa";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
-import { db } from "../libs/firebase";
-import { useSelector } from "react-redux";
+import { FaEye, FaTrash } from "react-icons/fa"
+import { useCollection } from "react-firebase-hooks/firestore"
+import { collection } from "firebase/firestore"
+import { db } from "../libs/firebase"
+import { useSelector } from "react-redux"
 const Bookmarks = () => {
     const user = useSelector((state) => state.user.user);
     const [snapshot, loading] = useCollection(collection(db, "bookmarks"));

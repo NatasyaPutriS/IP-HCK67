@@ -1,38 +1,93 @@
-import { useEffect, useState } from "react"
-import { FaBookmark, FaClock, FaHeart, FaShare, FaUser } from "react-icons/fa"
-import { useParams } from "react-router-dom"
-import ReactHtmlParser from "react-html-parser"
+import { useEffect, useState } from "react"  
+import { FaBookmark, FaClock, FaHeart, FaShare, FaUser } from "react-icons/fa"  
+import { useParams } from "react-router-dom"  
+import ReactHtmlParser from "react-html-parser"  
+import { useSelector } from "react-redux"  
+import { useCollection } from "react-firebase-hooks/firestore"  
+import { collection, addDoc } from "firebase/firestore"  
+import { db } from "../libs/firebase"  
+import {
+    EmailIcon,
+    EmailShareButton,
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from "react-share"  
+
+
 const DetailRecipe = () => {
-    const [loading, setLoading] = useState(false)
-    const [recipe, setRecipe] = useState({})
-    const params = useParams()
-    const id = params.id
+    const user = useSelector((state) => state.user.user)  
+    const [isLoading, setIsLoading] = useState(false)  
+    const [recipe, setRecipe] = useState({})  
+    const params = useParams()  
+    const id = params.id  
+    const [isOpenShare, setIsOpenShare] = useState(false)  
+    let shareUrl = `http://localhost:3000/recipe/${id}`  
+
+    const [snapshot, loading] = useCollection(collection(db, "bookmarks"))  
+    const bookmarks = snapshot?.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }))  
+
     const fetchDetailRecipe = async () => {
-        setLoading(true)
+        setIsLoading(true)  
         const response = await fetch(
-            `https://api.spoonacular.com/recipes/${id}/information?apiKey=a8034e9b73d2431284cf07abcd0c0986`,
+            `https://api.spoonacular.com/recipes/${id}/information?apiKey=c6a4e5101df441fcbc9f9128bf81323c`,
             {
                 method: "GET",
             }
-        ) 
+        )  
 
-        const data = await response.json()
+        if (response.status === 404) {
+            return (document.location.href = "/")  
+        }
 
-        setRecipe(data)
-        setLoading(false)
-    } 
+        const data = await response.json()  
+
+        setRecipe(data)  
+        setIsLoading(false)  
+    }  
 
     useEffect(() => {
-        fetchDetailRecipe()
-    }, [id])
+        fetchDetailRecipe()  
+    }, [id])  
 
-    if (loading) {
+    if (isLoading || loading) {
         return (
             <div className="w-full h-screen flex justify-center items-center">
                 <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-slate-800"></div>
             </div>
-        ) 
+        )  
     }
+
+    const handleBookmark = async () => {
+        // let body = {
+        //     title: recipe?.title,
+        //     image: recipe?.image,
+        //     id_recipe: recipe?.id,
+        //     id_user: user?.uid,
+        // }  
+        // const response = await fetch(`http://localhost:3000/bookmark`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(body),
+        // })  
+
+        // const data = await response.json()  
+
+        // console.log(data) 
+        const response = await addDoc(collection(db, "bookmarks"), {
+            title: recipe?.title,
+            image: recipe?.image,
+            id_recipe: recipe?.id,
+            id_user: user?.uid,
+        }) 
+        console.log(response)
+    }  
 
     return (
         <div className="max-w-7xl mx-auto p-6 flex sm:flex-row flex-col-reverse gap-5 items-start">
@@ -81,15 +136,71 @@ const DetailRecipe = () => {
                 </div>
             </div>
             <div className="sm:w-80 w-full p-3 rounded-sm bg-white border shadow space-y-3 ">
-                <button className="w-full p-3 rounded-sm bg-slate-800 text-white flex gap-2 items-center justify-center">
-                    <FaBookmark /> <span>Save Recipe</span>
+                {user ? (
+                    <div className="w-full">
+                        {bookmarks?.some(
+                            (item) =>
+                                item.id_recipe === recipe?.id && item.id_user === user?.uid
+                        ) ? (
+                            <a
+                                href="/bookmarks"
+                                className="w-full p-3 rounded-sm bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 text-white flex gap-2 items-center justify-center"
+                            >
+                                <FaBookmark /> <span>Saved</span>
+                            </a>
+                        ) : (
+                            <button
+                                onClick={handleBookmark}
+                                className="w-full p-3 rounded-sm bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 text-white flex gap-2 items-center justify-center"
+                            >
+                                <FaBookmark /> <span>Save Recipe</span>
+                            </button>
+                        )}
+                    </div>
+                ) : (
+                    <a
+                        href="/login"
+                        className="w-full p-3 rounded-sm bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 text-white flex gap-2 items-center justify-center"
+                    >
+                        <FaBookmark /> <span>Save Recipe</span>
+                    </a>
+                )}
+
+                <button
+                    onClick={() => setIsOpenShare(!isOpenShare)}
+                    className="w-full p-3 rounded-sm border flex gap-2 items-center justify-center"
+                >
+                    {isOpenShare ? (
+                        <>
+                            <span className="font-bold text-lg">Close</span>
+                        </>
+                    ) : (
+                        <>
+                            <FaShare /> <span>Share</span>
+                        </>
+                    )}
                 </button>
-                <button className="w-full p-3 rounded-sm border flex gap-2 items-center justify-center">
-                    <FaShare /> <span>Share</span>
-                </button>
+                {isOpenShare && (
+                    <div className="w-full border rounded-sm p-2 space-y-2">
+                        <h3 className="text-lg font-semibold text-center">
+                            Share to social media
+                        </h3>
+                        <div className="w-full flex flex-wrap gap-2 justify-center">
+                            <FacebookShareButton hashtag="CookTab" url={shareUrl}>
+                                <FacebookIcon size={35} />
+                            </FacebookShareButton>
+                            <WhatsappShareButton url={shareUrl}>
+                                <WhatsappIcon size={35} />
+                            </WhatsappShareButton>
+                            <EmailShareButton url={shareUrl}>
+                                <EmailIcon size={35} />
+                            </EmailShareButton>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
-    ) 
-} 
+    )  
+}  
 
-export default DetailRecipe
+export default DetailRecipe  

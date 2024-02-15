@@ -1,46 +1,61 @@
-import { BsGoogle } from "react-icons/bs" 
-import { useState } from "react" 
-import { signInWithEmailAndPassword } from "firebase/auth" 
-import { auth } from "../libs/firebase" 
-import { useNavigate } from "react-router-dom" 
-import { useDispatch, useSelector } from "react-redux" 
+import { BsGoogle } from "react-icons/bs"  
+import { useState } from "react"  
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"  
+import { auth } from "../libs/firebase"  
+import { useNavigate } from "react-router-dom"  
+import { useDispatch } from "react-redux"  
+import { GoogleAuthProvider } from "firebase/auth"  
+import { setUser } from "../features/actions/userActions"  
+
 const Login = () => {
-    const { loading, userInfo, error, success } = useSelector(
-        (state) => state.auth
-    ) 
-    console.log(loading, userInfo, error, success) 
+    const navigate = useNavigate()  
+    const [email, setEmail] = useState("")  
+    const [password, setPassword] = useState("")  
+    const [isLoading, setIsLoading] = useState(false)  
+    const [message, setMessage] = useState("")  
 
-    const navigate = useNavigate() 
-    const [email, setEmail] = useState("") 
-    const [password, setPassword] = useState("") 
-    const [isLoading, setIsLoading] = useState(false) 
-    const [message, setMessage] = useState("") 
-
-    const dispatch = useDispatch() 
+    const dispatch = useDispatch()  
 
     const onLogin = (e) => {
-        e.preventDefault() 
-        setIsLoading(true) 
-        setMessage("") 
+        e.preventDefault()  
+        setIsLoading(true)  
+        setMessage("")  
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                const user = userCredential.user 
+                const user = userCredential.user  
                 dispatch({
                     type: "LOGIN_SUCCESS",
                     payload: user.uid,
-                }) 
-                navigate("/home") 
-                setIsLoading(false) 
+                })  
+                navigate("/home")  
+                setIsLoading(false)  
             })
             .catch((error) => {
-                const errorCode = error.code 
-                const errorMessage = error.message 
-                console.log(errorCode, errorMessage) 
-                setMessage("Email or password is incorrect") 
-                setIsLoading(false) 
-            }) 
-    } 
+                const errorCode = error.code  
+                const errorMessage = error.message  
+                console.log(errorCode, errorMessage)  
+                setMessage("Email or password is incorrect")  
+                setIsLoading(false)  
+            })  
+    }  
+
+    const provider = new GoogleAuthProvider()  
+
+    const onLoginWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider)  
+            const user = result.user  
+            console.log(user)  
+            dispatch(setUser(user))  
+            if (user) {
+                dispatch({ type: "LOGIN_SUCCESS", payload: user.uid })  
+                navigate("/home")  
+            }
+        } catch (error) {
+            console.log(error)  
+        }
+    }  
 
     return (
         <div className="w-full h-screen flex justify-center items-center">
@@ -53,7 +68,11 @@ const Login = () => {
                     Login CookTab
                 </h1>
 
-                <button className="w-full p-2 rounded-sm border flex items-center justify-center gap-2">
+                <button
+                    type="button"
+                    onClick={onLoginWithGoogle}
+                    className="w-full p-2 rounded-sm border flex items-center justify-center gap-2"
+                >
                     <span>Login with google</span> <BsGoogle />
                 </button>
 
@@ -103,7 +122,7 @@ const Login = () => {
                 </p>
             </form>
         </div>
-    ) 
-} 
+    )  
+}  
 
-export default Login 
+export default Login  
