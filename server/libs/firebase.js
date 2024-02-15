@@ -1,5 +1,6 @@
 const { initializeApp } = require("firebase/app");
-const { getAuth } = require('firebase/auth')
+const { getAuth } = require("firebase/auth");
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,11 +29,12 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-const auth = getAuth()
+
+const auth = getAuth();
 
 module.exports = {
     firebase,
     admin,
     db,
-    auth
+    auth,
 };

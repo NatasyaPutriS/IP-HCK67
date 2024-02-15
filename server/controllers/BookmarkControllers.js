@@ -70,10 +70,31 @@ const addBookmark = async (req, res) => {
     }
 };
 
+const getByUserIdAndRecipeId = async (req, res) => {
+    try {
+        const { id_user, id_recipe } = req.query
+        const doc = await db
+        .collection("bookmarks")
+        .where("id_recipe", "==", id_recipe)
+        .where("id_user", "==", id_user)
+        .get()
+    if (doc.exist) {
+        res.status(200).json(doc.data())
+    } else {
+        res.status(404).json({ error: "Bookmark not found"})
+    }
+    } catch (error) {
+        res
+        .status(500)
+        .json({ message: "Error adding data", error: error.message })
+    }
+}
+
 module.exports = {
     getAllBookmark,
     getBookmarkById,
     updateBookmark,
     deleteBookmark,
-    addBookmark
+    addBookmark,
+    getByUserIdAndRecipeId
 };

@@ -1,8 +1,11 @@
 import { FaEye, FaTrash } from "react-icons/fa"
 import { useCollection } from "react-firebase-hooks/firestore"
-import { collection } from "firebase/firestore"
+import { collection, doc, deleteDoc } from "firebase/firestore"
 import { db } from "../libs/firebase"
 import { useSelector } from "react-redux"
+
+
+
 const Bookmarks = () => {
     const user = useSelector((state) => state.user.user);
     const [snapshot, loading] = useCollection(collection(db, "bookmarks"));
@@ -19,18 +22,22 @@ const Bookmarks = () => {
         );
     }
 
-    const handleDelete = async (id) => {
-        const response = await fetch(
-            `http://localhost:3000/bookmark/delete/${id}`,
-            {
-                method: "POST",
-            }
-        );
+    const handleDelete = async (id) => { 
+        await deleteDoc(doc(db, `bookmarks/${id}`));
+    }
+    //     const response = await fetch(
+    //         `http://localhost:3000/bookmark/delete/${id}`,
+    //         {
+    //             method: "POST",
+    //         }
+    //     );
 
-        const data = await response.json();
+    //     const data = await response.json();
 
-        console.log(data);
-    };
+    //     console.log(data);
+    // };
+
+
     return (
         <div className="max-w-7xl mx-auto p-6 space-y-3">
             <h1 className="sm:text-2xl font-bold text-xl">My Bookmarks</h1>
