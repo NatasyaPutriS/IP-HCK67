@@ -4,6 +4,7 @@ const router = require("./routes");
 const dotenv = require("dotenv");
 const app = express();
 const cookieParser = require("cookie-parser");
+const PORT = process.env.PORT || 3000;
 
 dotenv.config();
 app.use(cors());
@@ -12,8 +13,6 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(router);
 
-const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-    console.log(`I Love You ${PORT}`);
+  console.log(`I Love You ${PORT}`);
 });
